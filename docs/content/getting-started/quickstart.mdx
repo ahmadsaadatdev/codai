@@ -1,0 +1,97 @@
+---
+title: "Quickstart"
+description: "Install Codai and start your first coding session in a few minutes."
+---
+
+import { Cards, Callout, Steps } from "nextra/components";
+
+# Quickstart
+
+Install the tool, connect a model, and start with a small task. No project-wide
+indexing step is required before the composer opens.
+
+## Prerequisites
+
+- [.NET SDK 10.0 or later](https://dotnet.microsoft.com/download).
+- A project directory to work in.
+- A model provider, or a local model server such as Ollama.
+
+<Steps>
+
+### Install Codai
+
+```bash
+dotnet tool install --global Codai
+```
+
+Update later with `dotnet tool update --global Codai`.
+
+### Open your project
+
+```bash
+cd your-project
+```
+
+### Start Codai
+
+```bash
+codai
+```
+
+The first unconfigured run asks for a theme, a provider, and a model, then **Save** or
+**Cancel**. After saving, chat starts immediately. Settings are written to
+`~/.codai/codai-config.json` and reused across projects.
+
+<Callout type="warning">
+  Own-provider credentials are stored as plaintext in the configuration file.
+  Keep that file private and out of version control.
+</Callout>
+
+### Return later
+
+```bash
+codai
+```
+
+The saved theme, provider, and model are reused without prompts. Use `codai auth` to
+change the connection, or `:preferences theme` in a session to change the theme.
+
+</Steps>
+
+## Explore before editing
+
+Plan mode reads and searches without writing files or running commands.
+
+```bash
+codai --mode plan "Explain this project and propose a small improvement"
+```
+
+Agent is the default mode. Change modes in a session with `:mode plan` or `:mode agent`.
+
+## Complete a small task
+
+Start with a change whose behavior you can check, review each proposed file change and
+command before approving, and expand action steps to read diffs and test output.
+
+## Pick up where you left off
+
+```bash
+codai code --continue
+```
+
+## Next steps
+
+<Cards num={2}>
+  <Cards.Card title="Learn agent mode" href="/agent-mode" arrow>
+    Understand permissions, session controls, and recovery.
+  </Cards.Card>
+  <Cards.Card title="Know your tools" href="/usage/tools" arrow>
+    Understand file access, edits, commands, and verification.
+  </Cards.Card>
+  <Cards.Card title="Configure your model" href="/providers" arrow>
+    Connect a provider and distinguish saved from session-only settings.
+  </Cards.Card>
+  <Cards.Card title="Add skills" href="/skills" arrow>
+    Give Codai repeatable project-specific workflows.
+  </Cards.Card>
+</Cards>

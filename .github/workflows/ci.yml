@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - "README.md"
+      - "CHANGELOG.md"
+      - "CONTRIBUTION.md"
+      - "LICENSE"
+      - ".gitignore"
+      - ".gitattributes"
+      - "assets/**"
+      - "docs/**"
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build
+        run: dotnet build Codai.slnx --configuration Release -warnaserror
+
+# Pushing to nuget.org is not part of CI: .github/workflows/publish.yml does it when a
+# GitHub release is published, using the NUGET_API_KEY repository secret.

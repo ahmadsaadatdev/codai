@@ -1,0 +1,164 @@
+---
+title: "Plan and Agent"
+description: "Investigate in Plan, implement in Agent, and review the actions that change your project."
+---
+
+import { Callout, Cards, Steps } from "nextra/components";
+
+# Plan and Agent
+
+<div className="codai-lead">
+Understand the change. Review the plan. Build with control.
+</div>
+
+Codai works inside your project, using tools to find files, read code, make edits,
+and verify results. Choose how much it may do with two modes: **Plan** for
+investigation and **Agent** for implementation.
+
+## Modes
+
+| Capability | Plan | Agent |
+| --- | --- | --- |
+| Read files, search code, inspect Git | Yes | Yes |
+| Fetch public web pages | Yes | Yes |
+| Delegate a read-only investigation | When enabled | When enabled |
+| Write or patch files | No | With approval |
+| Run commands, builds, or tests | No | With shell access and approval |
+
+Agent is the default. Start read-only when you want to understand unfamiliar code:
+
+```bash
+codai --mode plan
+```
+
+In a session, press **Tab** when no completion is visible, or use `:mode plan`
+and `:mode agent`. A mode change does not save a new startup default.
+
+<Callout type="info">
+  Mode restrictions apply to tool discovery, execution, and file changes embedded in
+  model responses. Automatic approval never grants Plan mode write or shell access.
+  The former Ask mode is not supported; older Ask tasks resume as Plan.
+</Callout>
+
+## Plan and Act
+
+<Steps>
+
+### Describe the outcome
+
+Start in Plan and name the behavior, constraints, and checks that matter.
+
+```text
+Find how failed sign-ins are handled. Propose rate limiting that keeps
+existing error responses unchanged. Include the tests we should add.
+```
+
+### Refine the proposal
+
+Ask for missing edge cases or a smaller scope. Plan can investigate but cannot
+run commands or edit files. Use `:deep-plan <request>` for a detailed planning request.
+
+### Execute deliberately
+
+```text
+:act Keep public error messages unchanged.
+```
+
+Codai asks before executing the latest completed Plan proposal. This consent is
+separate from approval for individual writes and commands. `codai --execute-plan`
+is the CLI counterpart; additional prompt text supplies execution instructions.
+
+### Review the result
+
+Expand edit steps to inspect file diffs, review command output, and verify the
+requested behavior. Escape stops the current response, not changes already written.
+
+</Steps>
+
+## Session startup and context
+
+Sessions open without a full-project indexing pass. Codai discovers relevant code
+through [file and search tools](/usage/tools), while project instructions, rules,
+skill metadata, and memory are available before the first model request that needs them.
+Use `@path` to attach a specific file.
+
+Guidance loads lazily in interactive sessions: opening help, changing modes, or
+exiting does not require prompt-guidance loading. Saved history, background-task
+metadata, and checkpoints have their own I/O.
+
+See [Context and delegation](/usage/context) for compaction and background work.
+
+## Terminal input
+
+The composer stays below the scrollable transcript. You can draft the next request
+while Codai works, inspect individual action steps, and open settings without losing
+your draft. See [Terminal and shortcuts](/usage/terminal).
+
+### Connection setup
+
+Run `codai` in your project. First-run onboarding chooses a theme, then a provider
+or account and model. Save the connection to start chat. Later runs reuse it.
+[Connect a provider](/providers) covers credentials, local servers, and account sign-in.
+
+### Provider models
+
+Use live model discovery, a saved model, or a custom identifier. Available models
+and coding-tool support depend on your provider and transport.
+See [Choose a model](/providers/models).
+
+### API cost estimates
+
+Token totals and API costs are estimates, not invoices or guaranteed spending caps.
+Account-plan connections show a plan indicator instead of estimated API charges.
+See [Usage and pricing](/providers/pricing) for coverage and unknown-price behavior.
+
+### Composer
+
+Write multi-line requests, attach files, and queue the next turn while a response
+runs. Keyboard controls and the usage footer are covered in
+[Terminal and shortcuts](/usage/terminal).
+
+### Approvals
+
+Review the command, path, or patch before approving. Allow one call, remember
+approval for that tool this session, or refuse with guidance.
+See [Permissions](/usage/permissions) before enabling automatic approval.
+
+### Configuration controls
+
+Use `:preferences` to edit saved configuration. Provider fields and the default
+model require **Save**; **Cancel** leaves them unchanged. **Theme** also applies
+only after saving. The session-only model selector changes immediately on Enter.
+See [Configuration](/customization/configuration) for the distinction.
+
+### Conversation controls
+
+Fork a conversation, start fresh, or continue saved history with `:session`.
+See [Sessions and recovery](/usage/sessions).
+
+## Checkpoints
+
+Codai captures workspace snapshots before a task and after its changes.
+Restoring requires separate confirmation. Checkpoints are not a replacement for
+Git or a complete binary backup. Learn how to [restore files or task state](/usage/sessions#checkpoints).
+
+## Context and delegation
+
+Long conversations compact older output and archive replaced turns. Read-only
+sub-agents can investigate a bounded question in a separate context and report back.
+Neither compaction nor delegation grants additional permissions.
+
+<Cards num={2}>
+  <Cards.Card title="Know your tools" href="/usage/tools" arrow>
+    File access, search, edits, commands, and their limits.
+  </Cards.Card>
+  <Cards.Card title="Set your boundaries" href="/usage/permissions" arrow>
+    Approval choices, shell access, and noninteractive runs.
+  </Cards.Card>
+  <Cards.Card title="Recover your work" href="/usage/sessions" arrow>
+    Resume conversations and restore checkpoints deliberately.
+  </Cards.Card>
+  <Cards.Card title="Shape the context" href="/customization/instructions" arrow>
+    Project instructions, conditional rules, and durable memory.
+  </Cards.Card>
+</Cards>

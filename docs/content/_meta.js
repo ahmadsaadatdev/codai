@@ -1,0 +1,18 @@
+export default {
+  start: { type: "separator", title: "Start here" },
+  index: "Overview",
+  "getting-started": { title: "Getting started", display: "children" },
+  agent: { type: "separator", title: "Using Codai" },
+  "agent-mode": "Plan and Agent",
+  usage: { title: "Working with Codai", display: "children" },
+  providers: { title: "Providers and models" },
+  customization: { title: "Configuration and workflows" },
+  skills: "Skills",
+  integrations: { type: "separator", title: "Integrations" },
+  mcp: "MCP integrations",
+  plugins: "Plugins",
+  "acp-compatibility": "ACP compatibility",
+  reference: { type: "separator", title: "Reference" },
+  resources: { title: "Reference", display: "children" },
+  "agent-mode-roadmap": "Roadmap",
+};
